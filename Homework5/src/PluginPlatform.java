@@ -1,4 +1,5 @@
-import javax.swing.WindowConstants;
+import java.io.File;
+import java.io.IOException;
 
 
 public class PluginPlatform {
@@ -7,11 +8,23 @@ public class PluginPlatform {
 	
 	public PluginPlatform() {
 		gui = new GUIController();
-		loader = new PluginLoader(gui.getListingPanel());
+		File pluginDir = new File(System.getProperty("user.dir") + "/PluginFolder");
+		try {
+			loader = new PluginLoader(gui.getListingPanel(), pluginDir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void run() {
 		gui.setVisible(true);
-		loader.loadPlugins();
+		loader.loadAllPlugins();
+		try {
+			loader.watchPlugins();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
