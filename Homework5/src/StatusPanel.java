@@ -19,29 +19,25 @@ public class StatusPanel extends JPanel {
 	
 	private ArrayList<String> statusList;
 	private JScrollPane statusPane;
-	
-//	private ArrayList<String> statuses;
 
 	public StatusPanel() {
 		this.setBounds(x, y, width, height);
 		this.setBackground(Color.BLACK);
 		statusList = new ArrayList<String>();
+		statusList.add("Welcome to the Donkey Punters, LLC Plugin Platform!");
+		statusPane = new JScrollPane();
+		refreshStatusPane();
 		
-		
-		
-		createScrollPane();
 		this.setVisible(true);
-		this.log("plug 1", true);
 	}
 
-private void createScrollPane() {
-	for(int j = 0; j < 40; j ++)
-		statusList.add("test " + j + "");
-	Vector iVec = new Vector(statusList);
-	JList items = new JList(iVec);
-	JScrollPane statusPane = new JScrollPane(items);
-	statusPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	statusPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+private void refreshStatusPane() {
+	if(!statusPane.equals(new JScrollPane())) {
+		this.remove(statusPane);
+	}
+	Vector<String> iVec = new Vector<String>(statusList);
+	JList<?> items = new JList<String>(iVec);
+	statusPane = new JScrollPane(items,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	statusPane.setVisible(true);
 	statusPane.setPreferredSize(this.getSize());
 	statusPane.setBounds(0, 400, 600, 200);
@@ -51,11 +47,12 @@ private void createScrollPane() {
 	public void log(String pluginName, boolean start) {
 		String status = "";
 		if(start) {
-			status = pluginName + "has started executing.";
+			status = pluginName + " has started executing.";
 		} else {
-			status = pluginName + "has terminated.";
+			status = pluginName + " has terminated.";
 		}
-		statusList.add(status);
+		statusList.add(statusList.size(), status);
+		refreshStatusPane();
 		
 	}
 	

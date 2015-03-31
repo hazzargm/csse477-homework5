@@ -1,7 +1,12 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -11,19 +16,28 @@ public class ListingPanel extends JPanel {
 	private static final int y = 0;
 	private static final int height = 400;
 	private static final int width = 150;
+		
+	Map<String, JLabel> plugins;
 	
 	public ListingPanel() {
 		super();
+		plugins = new HashMap<String, JLabel>();
 		this.setBounds(x, y, width, height);
 		this.setBackground(Color.GREEN);
 	}
 	
 	public void addPlugin(String pluginName) {
+		JLabel pLabel = new JLabel(pluginName);
+		pLabel.setPreferredSize(new Dimension(150, 25));
+		pLabel.setBackground(Color.WHITE);
+		
+		plugins.put(pluginName, pLabel);
+		this.add(plugins.get(pluginName));
 		
 	}
 	
 	public void removePlugin(String pluginName) {
-		
+		this.remove(plugins.remove(pluginName));
 	}
 	
 	@Override
