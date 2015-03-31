@@ -39,6 +39,8 @@ public class ListingPanel extends JPanel {
 	
 	public void removePlugin(String pluginName) {
 		this.remove(plugins.remove(pluginName));
+		this.revalidate();
+		this.repaint();
 	}
 	
 	@Override

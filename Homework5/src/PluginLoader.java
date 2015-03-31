@@ -69,8 +69,8 @@ public class PluginLoader {
     
     public void watchPlugins() throws IOException {
         register(this.pluginDir.toPath());
-        // enable trace after initial registration
         this.trace = true;
+        processEvents();
     }
     
 	public void loadAllPlugins() {
@@ -120,7 +120,6 @@ public class PluginLoader {
      */
     void processEvents() {
         for (;;) {
- 
             // wait for key to be signalled
             WatchKey key;
             try {
