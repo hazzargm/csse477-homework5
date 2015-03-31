@@ -17,21 +17,35 @@ public class GUIController extends JFrame{
 	private ListingPanel listPanel;
 	private StatusPanel statPanel;
 	
+	private Plugin currentPlugin;
+	
 	public GUIController() {
 		execPanel = new ExecutionPanel();
 		listPanel = new ListingPanel();
 		statPanel = new StatusPanel();
 		
+		this.add(listPanel);
 		this.add(statPanel);
 		this.add(execPanel);
-		this.add(listPanel);
-		
+				
 		this.setSize(WIDTH, HEIGHT);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	
-	public void launchPlugin() {
+	public void launchPlugin(Plugin p) {
 		
+		// Status for "Killing" the current plugin
+		statPanel.log(currentPlugin.getName(), false);
+		
+		//TODO: Other GUI killing stuffs
+		
+		// Plugin switch
+		currentPlugin = p;
+		
+		// Status for "Launching" the current plugin
+		statPanel.log(p.getName(), true);
+		
+		//TODO: Other GUI launching stuffs
 	}
 	
 	public ListingPanel getListingPanel() {
