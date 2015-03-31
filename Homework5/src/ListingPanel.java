@@ -18,6 +18,14 @@ public class ListingPanel extends JPanel {
 		this.setBackground(Color.GREEN);
 	}
 	
+	public void addPlugin(String pluginName) {
+		
+	}
+	
+	public void removePlugin(String pluginName) {
+		
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

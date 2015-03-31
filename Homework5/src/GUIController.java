@@ -33,5 +33,9 @@ public class GUIController extends JFrame{
 	public void launchPlugin() {
 		
 	}
+	
+	public ListingPanel getListingPanel() {
+		return listPanel;
+	}
 
 }
