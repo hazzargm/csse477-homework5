@@ -3,10 +3,12 @@ import java.util.ArrayList;
 
 
 public class PluginLoader {
+	private ListingPanel listPanel;
 	
-	public PluginLoader() {
-		ArrayList<String> pluginNames =fetchPlugins();
+	public PluginLoader(ListingPanel listPanel) {
+		ArrayList<String> pluginNames = fetchPlugins();
 		System.out.println(pluginNames);
+		this.listPanel = listPanel;
 	}
 	
 	public ArrayList<Object> loadPlugins() {

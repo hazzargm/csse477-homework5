@@ -6,8 +6,8 @@ public class PluginPlatform {
 	private GUIController gui;
 	
 	public PluginPlatform() {
-		loader = new PluginLoader();
 		gui = new GUIController();
+		loader = new PluginLoader(gui.getListingPanel());
 	}
 	
 	public void run() {
