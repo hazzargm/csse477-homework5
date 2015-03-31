@@ -33,7 +33,8 @@ public class ListingPanel extends JPanel {
 		
 		plugins.put(pluginName, pLabel);
 		this.add(plugins.get(pluginName));
-		
+		this.revalidate();
+		this.repaint();
 	}
 	
 	public void removePlugin(String pluginName) {
