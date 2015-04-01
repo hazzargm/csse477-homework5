@@ -7,10 +7,10 @@ public class PluginPlatform {
 	private GUIController gui;
 	
 	public PluginPlatform() {
-		gui = new GUIController();
+		gui = new GUIController(this);
 		File pluginDir = new File(System.getProperty("user.dir") + "/PluginFolder");
 		try {
-			loader = new PluginLoader(gui.getListingPanel(), pluginDir);
+			loader = new PluginLoader(gui, pluginDir);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -27,4 +27,9 @@ public class PluginPlatform {
 			e.printStackTrace();
 		}
 	}
+	
+	public void launchPlugin(String pluginName) {
+		loader.launchPlugin(pluginName);
+	}
+	
 }

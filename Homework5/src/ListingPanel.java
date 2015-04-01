@@ -18,9 +18,11 @@ public class ListingPanel extends JPanel {
 	private static final int width = 150;
 		
 	Map<String, JLabel> plugins;
+	GUIController gui;
 	
-	public ListingPanel() {
+	public ListingPanel(GUIController gui) {
 		super();
+		this.gui = gui;
 		plugins = new HashMap<String, JLabel>();
 		this.setBounds(x, y, width, height);
 		this.setBackground(Color.GREEN);
@@ -28,6 +30,7 @@ public class ListingPanel extends JPanel {
 	
 	public void addPlugin(String pluginName) {
 		JLabel pLabel = new JLabel(pluginName);
+		pLabel.addMouseListener(new PluginClickListener(this, pluginName));
 		pLabel.setPreferredSize(new Dimension(150, 25));
 		pLabel.setBackground(Color.WHITE);
 		
@@ -41,6 +44,10 @@ public class ListingPanel extends JPanel {
 		this.remove(plugins.remove(pluginName));
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void pluginClicked(String pluginName) {
+		gui.launchPlugin(pluginName);
 	}
 	
 	@Override

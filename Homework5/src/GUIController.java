@@ -1,8 +1,11 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
@@ -18,10 +21,12 @@ public class GUIController extends JFrame{
 	private StatusPanel statPanel;
 	
 	private Plugin currentPlugin;
-	
-	public GUIController() {
+	private PluginPlatform platform;
+		
+	public GUIController(PluginPlatform platform) {
+		this.platform = platform;
 		execPanel = new ExecutionPanel();
-		listPanel = new ListingPanel();
+		listPanel = new ListingPanel(this);
 		statPanel = new StatusPanel();
 		
 		this.add(listPanel);
@@ -32,12 +37,19 @@ public class GUIController extends JFrame{
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	
-	public void launchPlugin(Plugin p) {
+	public void launchPlugin(String pluginName) {
+		platform.launchPlugin(pluginName);
+	}
+	
+	public void startPlugin(Plugin p) {
 		
 		// Status for "Killing" the current plugin
-		statPanel.log(currentPlugin.getName(), false);
-		
+		if (currentPlugin != null) {
+			statPanel.log(currentPlugin.getName(), false);
+		}
 		//TODO: Other GUI killing stuffs
+		
+		execPanel.add(p.getPanel());
 		
 		// Plugin switch
 		currentPlugin = p;
@@ -46,10 +58,20 @@ public class GUIController extends JFrame{
 		statPanel.log(p.getName(), true);
 		
 		//TODO: Other GUI launching stuffs
+		this.revalidate();
+		this.repaint();
 	}
 	
-	public ListingPanel getListingPanel() {
-		return listPanel;
+	public void addPlugin(String pluginName) {
+		listPanel.addPlugin(pluginName);
+		this.revalidate();
+		this.repaint();
+	}
+	
+	public void removePlugin(String pluginName) {
+		listPanel.removePlugin(pluginName);
+		this.revalidate();
+		this.repaint();
 	}
 
 }

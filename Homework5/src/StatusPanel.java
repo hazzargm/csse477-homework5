@@ -7,7 +7,6 @@ import java.util.Vector;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 
 public class StatusPanel extends JPanel {
@@ -31,18 +30,20 @@ public class StatusPanel extends JPanel {
 		this.setVisible(true);
 	}
 
-private void refreshStatusPane() {
-	if(!statusPane.equals(new JScrollPane())) {
-		this.remove(statusPane);
+	private void refreshStatusPane() {
+		if(!statusPane.equals(new JScrollPane())) {
+			this.remove(statusPane);
+		}
+		Vector<String> iVec = new Vector<String>(statusList);
+		JList<?> items = new JList<String>(iVec);
+		statusPane = new JScrollPane(items,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		statusPane.setVisible(true);
+		statusPane.setPreferredSize(this.getSize());
+		statusPane.setBounds(0, 400, 600, 200);
+		this.add(statusPane);
+		this.revalidate();
+		this.repaint();
 	}
-	Vector<String> iVec = new Vector<String>(statusList);
-	JList<?> items = new JList<String>(iVec);
-	statusPane = new JScrollPane(items,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	statusPane.setVisible(true);
-	statusPane.setPreferredSize(this.getSize());
-	statusPane.setBounds(0, 400, 600, 200);
-	this.add(statusPane);
-}
 	
 	public void log(String pluginName, boolean start) {
 		String status = "";
@@ -55,6 +56,7 @@ private void refreshStatusPane() {
 		refreshStatusPane();
 		
 	}
+	
 	
 	@Override
 	public void paintComponent(Graphics g) {

@@ -34,6 +34,7 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -43,6 +44,8 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JPanel;
  
 /**
  * Example to watch a directory (or tree) for changes to files.
@@ -53,17 +56,17 @@ public class PluginLoader {
     private final WatchService watcher;
     private final Map<WatchKey,Path> keys;
     private boolean trace = false;
-    private ListingPanel listPanel;
+    private GUIController gui;
     private File pluginDir;
     
     /**
      * Creates a WatchService and registers the given directory
      * @throws IOException 
      */
-    PluginLoader(ListingPanel listPanel, File pluginDir) throws IOException {
+    PluginLoader(GUIController gui, File pluginDir) throws IOException {
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<WatchKey,Path>();
-        this.listPanel = listPanel;
+        this.gui = gui;
         this.pluginDir = pluginDir;
     }
     
@@ -84,14 +87,29 @@ public class PluginLoader {
 	
 	private void loadPlugin(String plugin) {
 		System.out.println("Loading Plugin: " + plugin);
-		this.listPanel.addPlugin(plugin);
+		this.gui.addPlugin(plugin);
 	}
 	
 	private void removePlugin(String plugin) {
 		System.out.println("Removing Plugin: " + plugin);
-		this.listPanel.removePlugin(plugin);
+		this.gui.removePlugin(plugin);
 	}
     
+	public void launchPlugin(String pluginName) {
+		File[] filesList = this.pluginDir.listFiles();
+		for (File file : filesList) {
+			if(file.isFile() && file.getName().equalsIgnoreCase(pluginName)) {
+				// DO STUFF TO LAUNCH JPANEL HERE
+				JPanel jp = new JPanel();
+				jp.setBounds(300, 300, 500, 20);
+				jp.setBackground(Color.ORANGE);
+				jp.setVisible(true);
+				Plugin p = new Plugin(pluginName, jp);
+				gui.startPlugin(p);
+			}
+		}
+	}
+	
     @SuppressWarnings("unchecked")
     static <T> WatchEvent<T> cast(WatchEvent<?> event) {
         return (WatchEvent<T>)event;
