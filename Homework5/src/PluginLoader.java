@@ -35,8 +35,12 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -104,32 +108,38 @@ public class PluginLoader {
     
 	public void launchPlugin(String pluginName) {
 		File[] filesList = this.pluginDir.listFiles();
+		JPanel jp = new JPanel();
 		for (File file : filesList) {
 			if(file.isFile() && file.getName().equalsIgnoreCase(pluginName)) {
 				try {
-//					System.out.println(file.toURL());
 					URL[] classLoaderURLs = {file.toURL()};
 					URLClassLoader classLoader = new URLClassLoader(classLoaderURLs);
 					Manifest m = new JarFile(file.toString()).getManifest();
 					System.out.println(m);
 					System.out.println("----------------");
-//					Manifest m = new Manifest(file.toURL().openStream());
 					Attributes attr = m.getMainAttributes();
-					String val = attr.getValue("pluginName");
-					System.out.println(val);
-					System.out.println(attr.toString());
-					Class<?> plugin = classLoader.loadClass(val);
+					String val = attr.getValue("Manifest-Version");
+					Class<?> pluginClass = classLoader.loadClass(val);
+					
+					// Create a new instance from the loaded class
+					Constructor<?> constructor = pluginClass.getConstructor();
+					Object pluginObj = constructor.newInstance();
+					
+					// Getting a method from the loaded class and invoke it
+					Method method = pluginClass.getMethod("getPanel");
+					Object obj = method.invoke(pluginObj);
+					jp = (JPanel) obj;
 
-				} catch (ClassNotFoundException | IOException e) {
+				} catch (ClassNotFoundException | IOException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				//URL[] classLoaderURLs = new []{new URL(file)};
 				// DO STUFF TO LAUNCH JPANEL HERE
-				JPanel jp = new JPanel();
-				jp.setBounds(300, 300, 500, 20);
-				jp.setBackground(Color.ORANGE);
-				jp.add(new JLabel(pluginName));
+				//JPanel jp = new JPanel();
+				jp.setPreferredSize(new Dimension(300, 300));
+//				jp.setBackground(Color.ORANGE);
+//				jp.add(new JLabel(pluginName));
 				jp.setVisible(true);
 				Plugin p = new Plugin(pluginName, jp);
 				gui.startPlugin(p);

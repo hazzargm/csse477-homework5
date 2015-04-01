@@ -1,1 +1,8 @@
-pluginName: HappyPanel
+Manifest-Version: HappyPanel
+Bundle-ManifestVersion: 2
+Bundle-Name: HappyPanel
+Bundle-SymbolicName: HappyPanel
+Bundle-Version: 1.0.0.alpha
+Bundle-Vendor: Rose-Hulman
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: HappyPanel
