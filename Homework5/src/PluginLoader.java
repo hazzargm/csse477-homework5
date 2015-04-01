@@ -111,9 +111,14 @@ public class PluginLoader {
 					URL[] classLoaderURLs = {file.toURL()};
 					URLClassLoader classLoader = new URLClassLoader(classLoaderURLs);
 					Manifest m = new JarFile(file.toString()).getManifest();
-					Attributes pluginClass = m.getAttributes("pluginName");
-					System.out.println(pluginClass.toString());
-					Class<?> plugin = classLoader.loadClass(pluginClass.toString());
+					System.out.println(m);
+					System.out.println("----------------");
+//					Manifest m = new Manifest(file.toURL().openStream());
+					Attributes attr = m.getMainAttributes();
+					String val = attr.getValue("pluginName");
+					System.out.println(val);
+					System.out.println(attr.toString());
+					Class<?> plugin = classLoader.loadClass(val);
 
 				} catch (ClassNotFoundException | IOException e) {
 					// TODO Auto-generated catch block
