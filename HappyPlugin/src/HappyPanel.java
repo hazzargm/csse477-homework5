@@ -37,6 +37,10 @@ public class HappyPanel extends JPanel {
 		
 	}
 	
+	public JPanel getPanel() {
+		return this;
+	}
+	
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -45,10 +49,6 @@ public class HappyPanel extends JPanel {
 		frame.setSize(width + 50, height + 50);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			
-
-
-
 	}
 
 }

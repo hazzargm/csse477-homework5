@@ -37,6 +37,9 @@ import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
@@ -44,6 +47,9 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -100,6 +106,20 @@ public class PluginLoader {
 		File[] filesList = this.pluginDir.listFiles();
 		for (File file : filesList) {
 			if(file.isFile() && file.getName().equalsIgnoreCase(pluginName)) {
+				try {
+//					System.out.println(file.toURL());
+					URL[] classLoaderURLs = {file.toURL()};
+					URLClassLoader classLoader = new URLClassLoader(classLoaderURLs);
+					Manifest m = new JarFile(file.toString()).getManifest();
+					Attributes pluginClass = m.getAttributes("pluginName");
+					System.out.println(pluginClass.toString());
+					Class<?> plugin = classLoader.loadClass(pluginClass.toString());
+
+				} catch (ClassNotFoundException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//URL[] classLoaderURLs = new []{new URL(file)};
 				// DO STUFF TO LAUNCH JPANEL HERE
 				JPanel jp = new JPanel();
 				jp.setBounds(300, 300, 500, 20);
