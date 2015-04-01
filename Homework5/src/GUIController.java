@@ -25,6 +25,8 @@ public class GUIController extends JFrame{
 		
 	public GUIController(PluginPlatform platform) {
 		this.platform = platform;
+		currentPlugin = new Plugin("null", null);
+		
 		execPanel = new ExecutionPanel();
 		listPanel = new ListingPanel(this);
 		statPanel = new StatusPanel();
@@ -38,24 +40,27 @@ public class GUIController extends JFrame{
 	}
 	
 	public void launchPlugin(String pluginName) {
-		platform.launchPlugin(pluginName);
+		if (!currentPlugin.getName().equalsIgnoreCase(pluginName)) {
+			platform.launchPlugin(pluginName);
+		}
 	}
 	
 	public void startPlugin(Plugin p) {
 		
 		// Status for "Killing" the current plugin
-		if (currentPlugin != null) {
+		if (currentPlugin.getPanel() != null) {
 			statPanel.log(currentPlugin.getName(), false);
 		}
 		//TODO: Other GUI killing stuffs
-		
-		execPanel.add(p.getPanel());
+		execPanel.removeAll();
 		
 		// Plugin switch
 		currentPlugin = p;
 		
 		// Status for "Launching" the current plugin
-		statPanel.log(p.getName(), true);
+		execPanel.add(currentPlugin.getPanel());
+
+		statPanel.log(currentPlugin.getName(), true);
 		
 		//TODO: Other GUI launching stuffs
 		this.revalidate();

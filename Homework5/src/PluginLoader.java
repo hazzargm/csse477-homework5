@@ -45,6 +45,7 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
  
 /**
@@ -103,6 +104,7 @@ public class PluginLoader {
 				JPanel jp = new JPanel();
 				jp.setBounds(300, 300, 500, 20);
 				jp.setBackground(Color.ORANGE);
+				jp.add(new JLabel(pluginName));
 				jp.setVisible(true);
 				Plugin p = new Plugin(pluginName, jp);
 				gui.startPlugin(p);
