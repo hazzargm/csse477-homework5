@@ -1,8 +1,5 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class ListingPanel extends JPanel {
 	
 	private static final int x = 0;
@@ -25,15 +23,14 @@ public class ListingPanel extends JPanel {
 		this.gui = gui;
 		plugins = new HashMap<String, JLabel>();
 		this.setBounds(x, y, width, height);
-		this.setBackground(Color.GREEN);
+		this.setBackground(Color.GRAY);
 	}
 	
 	public void addPlugin(String pluginName) {
 		JLabel pLabel = new JLabel(pluginName);
+		pLabel.setForeground(Color.GREEN);
 		pLabel.addMouseListener(new PluginClickListener(this, pluginName));
 		pLabel.setPreferredSize(new Dimension(150, 25));
-		pLabel.setBackground(Color.WHITE);
-		
 		plugins.put(pluginName, pLabel);
 		this.add(plugins.get(pluginName));
 		this.revalidate();
@@ -50,10 +47,4 @@ public class ListingPanel extends JPanel {
 		gui.launchPlugin(pluginName);
 	}
 	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-	}
-
 }

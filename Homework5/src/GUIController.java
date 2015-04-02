@@ -1,20 +1,13 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Vector;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 
+@SuppressWarnings("serial")
 public class GUIController extends JFrame{
 	
-	private static final int WIDTH = 615;
-	private static final int HEIGHT = 660;
+	private static final int WIDTH = 605;
+	private static final int HEIGHT = 650;
 	
 	private ExecutionPanel execPanel;
 	private ListingPanel listPanel;
@@ -34,8 +27,10 @@ public class GUIController extends JFrame{
 		this.add(listPanel);
 		this.add(statPanel);
 		this.add(execPanel);
+		this.add(new JPanel());
 				
 		this.setSize(WIDTH, HEIGHT);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	
@@ -51,7 +46,6 @@ public class GUIController extends JFrame{
 		if (currentPlugin.getPanel() != null) {
 			statPanel.log(currentPlugin.getName(), false);
 		}
-		//TODO: Other GUI killing stuffs
 		execPanel.removeAll();
 		
 		// Plugin switch
@@ -62,7 +56,6 @@ public class GUIController extends JFrame{
 
 		statPanel.log(currentPlugin.getName(), true);
 		
-		//TODO: Other GUI launching stuffs
 		this.revalidate();
 		this.repaint();
 	}

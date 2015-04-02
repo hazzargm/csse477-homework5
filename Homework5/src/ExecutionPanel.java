@@ -1,10 +1,6 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
 
-
+@SuppressWarnings("serial")
 public class ExecutionPanel extends JPanel {
 	
 	private static final int x = 150;
@@ -15,13 +11,6 @@ public class ExecutionPanel extends JPanel {
 	public ExecutionPanel() {
 		super();
 		this.setBounds(x, y, width, height);
-		this.setBackground(Color.RED);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
 	}
 
 }

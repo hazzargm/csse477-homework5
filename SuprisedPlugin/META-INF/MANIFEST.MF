@@ -1,0 +1,8 @@
+Manifest-Version: SuprisedPanel
+Bundle-ManifestVersion: 2
+Bundle-Name: SuprisedPanel
+Bundle-SymbolicName: SuprisedPanel
+Bundle-Version: 1.0.0.alpha
+Bundle-Vendor: Rose-Hulman
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: SuprisedPanel

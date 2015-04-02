@@ -1,6 +1,4 @@
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -9,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
+@SuppressWarnings("serial")
 public class StatusPanel extends JPanel {
 	
 	private static final int x = 0;
@@ -57,10 +56,4 @@ public class StatusPanel extends JPanel {
 		
 	}
 	
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-	}
 }
