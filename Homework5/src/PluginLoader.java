@@ -35,8 +35,10 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
 import java.awt.Dimension;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -66,12 +68,15 @@ public class PluginLoader {
     private boolean trace = false;
     private GUIController gui;
     private File pluginDir;
+    private JPanel pluginPanel;
+    private ByteArrayOutputStream out;
     
     /**
      * Creates a WatchService and registers the given directory
      * @throws IOException 
      */
     PluginLoader(GUIController gui, File pluginDir) throws IOException {
+    	this.pluginPanel = new JPanel();
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<WatchKey,Path>();
         this.gui = gui;
@@ -104,7 +109,7 @@ public class PluginLoader {
 	@SuppressWarnings({ "resource", "deprecation" })
 	public void launchPlugin(String pluginName) {
 		File[] filesList = this.pluginDir.listFiles();
-		JPanel pluginPanel = new JPanel();
+//		JPanel pluginPanel = new JPanel();
 		for (File file : filesList) {
 			if(file.isFile() && file.getName().equalsIgnoreCase(pluginName)) {
 				try {
@@ -117,12 +122,17 @@ public class PluginLoader {
 					
 					// Create a new instance from the loaded class
 					Constructor<?> constructor = pluginClass.getConstructor();
+					
 					Object pluginObj = constructor.newInstance();
 					
 					// Getting a method from the loaded class and invoke it
-					Method method = pluginClass.getMethod("getPanel");
-					Object obj = method.invoke(pluginObj);
-					pluginPanel = (JPanel) obj;
+					Method method1 = pluginClass.getMethod("getStream");
+					Object out = method1.invoke(pluginObj);
+					out = (ByteArrayOutputStream) out;
+					
+					Method method2 = pluginClass.getMethod("getPanel");
+					Object pan = method2.invoke(pluginObj);
+					pluginPanel = (JPanel) pan;
 
 				} catch (ClassNotFoundException | IOException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					// Do Nothing! :)

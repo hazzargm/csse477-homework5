@@ -28,7 +28,7 @@ public class ListingPanel extends JPanel {
 	
 	public void addPlugin(String pluginName) {
 		JLabel pLabel = new JLabel(pluginName);
-		pLabel.setForeground(Color.GREEN);
+		pLabel.setForeground(Color.BLACK);
 		pLabel.addMouseListener(new PluginClickListener(this, pluginName));
 		pLabel.setPreferredSize(new Dimension(150, 25));
 		plugins.put(pluginName, pLabel);
@@ -44,6 +44,10 @@ public class ListingPanel extends JPanel {
 	}
 	
 	public void pluginClicked(String pluginName) {
+		for(JLabel l: plugins.values()) {
+			l.setForeground(Color.BLACK);
+		}
+		plugins.get(pluginName).setForeground(Color.GREEN);
 		gui.launchPlugin(pluginName);
 	}
 	
