@@ -38,7 +38,6 @@ import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -63,6 +62,7 @@ import javax.swing.JPanel;
  
 public class PluginLoader {
  
+	public final static String PLUGIN_KEY = "Manifest-Version";
     private final WatchService watcher;
     private final Map<WatchKey,Path> keys;
     private boolean trace = false;
@@ -109,7 +109,6 @@ public class PluginLoader {
 	@SuppressWarnings({ "resource", "deprecation" })
 	public void launchPlugin(String pluginName) {
 		File[] filesList = this.pluginDir.listFiles();
-//		JPanel pluginPanel = new JPanel();
 		for (File file : filesList) {
 			if(file.isFile() && file.getName().equalsIgnoreCase(pluginName)) {
 				try {
@@ -117,7 +116,7 @@ public class PluginLoader {
 					URLClassLoader classLoader = new URLClassLoader(classLoaderURLs);
 					Manifest m = new JarFile(file.toString()).getManifest();
 					Attributes attr = m.getMainAttributes();
-					String val = attr.getValue("Manifest-Version");
+					String val = attr.getValue(PLUGIN_KEY);
 					Class<?> pluginClass = classLoader.loadClass(val);
 					
 					// Create a new instance from the loaded class
@@ -128,7 +127,7 @@ public class PluginLoader {
 					// Getting a method from the loaded class and invoke it
 					Method method1 = pluginClass.getMethod("getStream");
 					Object out = method1.invoke(pluginObj);
-					out = (ByteArrayOutputStream) out;
+					this.out = (ByteArrayOutputStream) out;
 					
 					Method method2 = pluginClass.getMethod("getPanel");
 					Object pan = method2.invoke(pluginObj);
@@ -140,7 +139,7 @@ public class PluginLoader {
 				pluginPanel.setPreferredSize(new Dimension(300, 350));
 				pluginPanel.setVisible(true);
 				Plugin p = new Plugin(pluginName, pluginPanel);
-				gui.startPlugin(p);
+				gui.startPlugin(p, this.out);
 			}
 		}
 	}

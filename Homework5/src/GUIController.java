@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -40,12 +42,13 @@ public class GUIController extends JFrame{
 		}
 	}
 	
-	public void startPlugin(Plugin p) {
+	public void startPlugin(Plugin p, ByteArrayOutputStream out) {
 		
 		// Status for "Killing" the current plugin
 		if (currentPlugin.getPanel() != null) {
 			statPanel.log(currentPlugin.getName(), false);
 		}
+		platform.killStatThread();
 		execPanel.removeAll();
 		
 		// Plugin switch
@@ -58,6 +61,8 @@ public class GUIController extends JFrame{
 		
 		this.revalidate();
 		this.repaint();
+		
+		this.platform.monitorPluginForStatus(currentPlugin, out);
 	}
 	
 	public void addPlugin(String pluginName) {
@@ -70,6 +75,10 @@ public class GUIController extends JFrame{
 		listPanel.removePlugin(pluginName);
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void addStatus(String status) {
+		statPanel.addStatus(status);
 	}
 
 }

@@ -3,21 +3,26 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 
+@SuppressWarnings("serial")
 public class HappyPanel extends JPanel {
 
 	private static final int x = 50;
 	private static final int y = 50;
 	private static final int width = 300;
 	private static final int height = 350;
-	
+	private ByteArrayOutputStream out;
+
 	public HappyPanel() {
 		this.setBounds(x, y, width, height);
+		this.out = new ByteArrayOutputStream();
 	}
 	
 	@Override
@@ -34,13 +39,21 @@ public class HappyPanel extends JPanel {
 		g2.fill(rightEye);
 		Arc2D.Double mouth = new Arc2D.Double(50, 175, 200, 100, 180, 180, Arc2D.PIE);
 		g2.fill(mouth);
-		
+		String s = "I am happy that these plugins work!";
+		try {
+			out.write(s.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public JPanel getPanel() {
 		return this;
 	}
 	
+	public ByteArrayOutputStream getStream() {
+		return out;
+	}
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();

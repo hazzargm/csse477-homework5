@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -5,6 +6,7 @@ import java.io.IOException;
 public class PluginPlatform {
 	private PluginLoader loader;
 	private GUIController gui;
+	private Thread statThread;
 	
 	public PluginPlatform() {
 		gui = new GUIController(this);
@@ -30,6 +32,17 @@ public class PluginPlatform {
 	
 	public void launchPlugin(String pluginName) {
 		loader.launchPlugin(pluginName);
+	}
+
+	public void monitorPluginForStatus(Plugin plugin, ByteArrayOutputStream out) {
+		statThread = new Thread(new StatusThreadRunnable(plugin, out, gui));
+		statThread.start();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void killStatThread() {
+		if(statThread != null)
+			statThread.stop();
 	}
 	
 }

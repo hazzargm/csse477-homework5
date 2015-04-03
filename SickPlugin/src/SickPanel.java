@@ -5,14 +5,12 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-
+@SuppressWarnings("serial")
 public class SickPanel extends JPanel {
 
 	private static final int x = 50;
@@ -38,13 +36,14 @@ public class SickPanel extends JPanel {
 		g2.fill(leftEye);
 		Ellipse2D.Double rightEye = new Ellipse2D.Double(175, 75, 50, 50);
 		g2.fill(rightEye);
-		Arc2D.Double mouth = new Arc2D.Double(50, 175, 200, 0, 270, 175, Arc2D.PIE);
+		Arc2D.Double mouth = new Arc2D.Double(50, 175, 200, 100, 160, 20, Arc2D.PIE);
 		g2.fill(mouth);
+		Arc2D.Double mouth2 = new Arc2D.Double(50, 175, 200, 100, 340, 20, Arc2D.PIE);
+		g2.fill(mouth2);
 		String s = "I don't feel so good!";
 		try {
 			out.write(s.getBytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

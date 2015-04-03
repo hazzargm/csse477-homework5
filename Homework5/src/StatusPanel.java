@@ -51,9 +51,12 @@ public class StatusPanel extends JPanel {
 		} else {
 			status = pluginName + " has terminated.";
 		}
+		addStatus(status);
+	}
+
+	public void addStatus(String status) {
 		statusList.add(statusList.size(), status);
 		refreshStatusPane();
-		
 	}
 	
 }
